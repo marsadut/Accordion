@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komponen Akordion FAQ</title>
+    <style>
+        /* --- 1. CSS & Layouting --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .faq-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #f4f4f4; /* Cocokkan dengan background body */
+            border-radius: 12px;
+        }
+        
+        h2 {
+            text-align: left;
+            margin-bottom: 5px;
+            color: #111;
+        }
+        
+        .subtitle {
+            text-align: left;
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        .faq-item {
+            margin-bottom: 10px;
+            border-radius: 12px;
+            overflow: hidden; /* Penting untuk border-radius */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Tombol Pertanyaan (Accessibility) */
+        .faq-question {
+            /* Layouting dengan Flexbox */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            width: 100%;
+            padding: 18px 20px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .faq-question .icon {
+            font-family: monospace; /* Tampilan 'v' lebih baik */
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        /* Konten Jawaban */
+        .faq-answer {
+            background-color: #fff;
+            color: #333;
+            /* Trik untuk animasi: max-height 0 */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            border: 2px solid #000;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
+        
+        .faq-answer p {
+            padding: 0 20px; /* Padding dipindah ke 'p' */
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* --- State 'Aktif' (Ditambahkan oleh JavaScript) --- */
+        .faq-item.active .faq-answer {
+            /* Atur ke nilai yang lebih besar dari konten */
+            max-height: 200px; 
+            padding: 20px 0; /* Menambah padding atas/bawah saat aktif */
+        }
+        
+        .faq-item.active .faq-answer p {
+            padding: 0 20px;
+        }
+
+        .faq-item.active .faq-question .icon {
+            transform: rotate(180deg);
+        }
+        
+        /* Memberi gaya pada pertanyaan yang aktif */
+        .faq-item.active .faq-question {
+            /* Sedikit ubah tampilan saat aktif (opsional) */
+            /* background-color: #333; */
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <main class="faq-container">
+        <h2>Frequently Asked Questions</h2>
+        <p class="subtitle">Here are some of the frequently asked questions</p>
+    
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>What is roadmap.sh?</span>
+                <span class="icon">v</span>
+            </button>
+            <div class="faq-answer">
+                <p>roadmap.sh is a community effort to create learning paths, guides, project ideas and other similar content to help developers grow in their careers.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>What are the plans for roadmap.sh?</span>
+                <span class="icon">v</span>
+            </button>
+            <div class="faq-answer">
+                <p>We plan to add more roadmaps, guides, and project ideas. We are also working on a new feature to help you track your progress.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>How is roadmap.sh built?</span>
+                <span class="icon">v</span>
+            </button>
+            <div class="faq-answer">
+                <p>The tech stack includes React, Next.js, and a lot of love from the community.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <button class="faq-question">
+                <span>Can I use roadmap.sh in my team?</span>
+                <span class="icon">v</span>
+            </button>
+            <div class="faq-answer">
+                <p>Yes, absolutely! All content is free and open-source.</p>
+            </div>
+        </div>
+
+    </main>
+
+
+    <script>
+        // 1. Dapatkan semua elemen .faq-item
+        const allFaqItems = document.querySelectorAll('.faq-item');
+
+        // 2. Loop (ulangi) setiap item
+        allFaqItems.forEach(item => {
+            // 3. Dapatkan tombol pertanyaan di dalam item
+            const questionButton = item.querySelector('.faq-question');
+            
+            // 4. Tambahkan event listener 'click'
+            questionButton.addEventListener('click', () => {
+                
+                // --- INI LOGIKA PENTINGNYA ---
+                // 5. Cek apakah ada item lain yang sedang 'active'
+                const currentlyActiveItem = document.querySelector('.faq-item.active');
+                
+                // 6. Jika ada, dan itu BUKAN item yang baru diklik...
+                if (currentlyActiveItem && currentlyActiveItem !== item) {
+                    // ...maka tutup item itu
+                    currentlyActiveItem.classList.remove('active');
+                }
+                
+                // 7. Buka/Tutup item yang baru saja diklik
+                item.classList.toggle('active');
+            });
+        });
+
+    </script>
+
+</body>
+</html>
